@@ -1,13 +1,19 @@
+# for the function which creates the permutations
 import itertools
 
-# Globale Variablen:
-# Die Anzahl von Champions je Kostenstufe, z.B. 8 unterschiedliche Legendäre
+# global constant variables:
+min_level = 1
+max_level = 9
+min_cost = 1
+max_cost = 5
+
+# amount of champions per cost-tier, for example there are 8 different 5 cost units
 champions_per_cost = [13, 13, 13, 10, 8]
 
-# Anzahl der Kopien eines Champs im Pool: Aurelion Sol mit 10 Kopien im Pool
+# amount of champion copys in the pool: e.g. Aurelion Sol has 10 copies
 champion_copys_in_pool = [29, 22, 18, 12, 10]
 
-# Wahrscheinlichkeiten der einzelnen Stufen wobei [1, 0] W'keit auf Level 2 für 1 Cost
+# probabilities of cost tiers, dependent on level
 roll_probabilities = [[1.0, 0.0, 0.0, 0.0, 0.0],  # Level 1
                       [1.0, 0.0, 0.0, 0.0, 0.0],  # Level 2
                       [0.75, 0.25, 0.0, 0.0, 0.0],  # Level 3
@@ -18,46 +24,25 @@ roll_probabilities = [[1.0, 0.0, 0.0, 0.0, 0.0],  # Level 1
                       [0.14, 0.20, 0.30, 0.30, 0.06],  # Level 8
                       [0.10, 0.15, 0.25, 0.35, 0.15]]  # Level 9
 
-# Anzahl der Kostenstufen
-cost_levels = 5
 
-
-def faculty(n):
-    result = 1
-    for i in range(1, n + 1):
-        result = result * i
-    return result
-
-
-def binomial_coefficient(n, k):
-    return faculty(n) / (faculty(k) * faculty(n - k))
-
-
+# the probability for one champion, dependent on cost and level
 def probability_one_unit(cost, level):
     return roll_probabilities[level - 1][cost - 1] / champions_per_cost[cost - 1]
 
 
+# probability of a cost-tier at a specific level
 def probability_unit_per_cost(cost, level):
     return roll_probabilities[level - 1][cost - 1]
 
 
+# probability that you need n rolls for a hit
 def probability_hit_at_n_rolls(cost, level, n):
     p = probability_one_unit(cost, level)
 
     return n * p * pow(1 - p, n - 1)
 
 
-def probability_m_hits_at_n_rolls(cost, level, n, m):
-    p = 0
-    champion_hits = m
-    rolls_left = n
-    while rolls_left > 0:
-        p = p + probability_hit_at_n_rolls(cost, level, n)
-
-        rolls_left = rolls_left - 1
-        champion_hits = champion_hits - 1
-
-
+# probability to hit m champions in n rolls
 def probability_m_champs_with_n_rolls(cost, rolls, min_champion_hits):
     # amount of all possible outcomes
     champion_copies_of_cost_x = champions_per_cost[cost - 1] * champion_copys_in_pool[cost - 1]
@@ -100,6 +85,7 @@ def probability_m_champs_with_n_rolls(cost, rolls, min_champion_hits):
     return total_p
 
 
+# probability to hit m champions in n rolls dependent on level
 def probability_m_champs_with_n_rolls_at_level(cost, rolls, min_champion_hits, level):
     # n rolls, probability that at least m champion are found
     p = probability_m_champs_with_n_rolls(cost, rolls, min_champion_hits)
@@ -108,11 +94,7 @@ def probability_m_champs_with_n_rolls_at_level(cost, rolls, min_champion_hits, l
 
 
 def main():
-    # Aktuell betrachtete Kostenstufe
-    current_cost = 1
-
-    # Aktuell betrachtetes Level
-    current_level = 1
+    print("here comes gui")
 
 
 if __name__ == "__main__":
