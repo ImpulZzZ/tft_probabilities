@@ -1,0 +1,5 @@
+Terminal:
+(venv) C:\Users\khamy\PycharmProjects\tft_probabilities\myproject>python manage.py runserver 127.0.0.1:8080
+
+Webbrowser:
+http://127.0.0.1:8080/tft_prp/
