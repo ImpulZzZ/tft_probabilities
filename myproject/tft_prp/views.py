@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import render
 
-def index(request):
-        return render(request, 'index.html')
+# "Home page"
+def home(request):
+        return render(request, 'home.html')
         #return HttpResponse("Hello World. You're at the tft_prp index.")
